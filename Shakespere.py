@@ -17,13 +17,15 @@ goal = "methinks it is like a weasel"
 choices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
            "v", "w", "x", "y", "z", " "]
 
+finished1 = ''
+finished2 = ''
 
 def generator():
     gen = ''
     go = True
     count = 0
     while go:
-        while count<28:
+        while count < 28:
             x = random.choice(choices)
             gen += x
             count += 1
@@ -32,6 +34,8 @@ def generator():
 
 
 def genscore(s):
+
+
     score = 0
     if goal == s:
         score = 100
@@ -40,11 +44,35 @@ def genscore(s):
 
 
 def compare(genstr):
-
     if goal == genstr:
         return True
-    else:
-        return False
+
+    insertstring(genstr)
+
+    if finished == goal:
+        return True
+
+    return False
+
+def insertstring(genstring):
+    global finished1
+    global finished2
+
+    i = 1
+    k = 1
+
+    while k <= len(goal):
+        if k == 1:
+            k += 1
+            if goal[:i] == genstring[:i] and genstring[:i] != finished1[:i]:
+                finished1 += genstring[:i]
+                i += 1
+
+        else:
+            k += 1
+            if goal[i-1:i] == genstring[i-1:i] and genstring[i-1:i] != finished1[i-1:i]:
+                finished2 += genstring[i-1:i]
+                i += 1
 
 
 def start():
@@ -55,18 +83,17 @@ def start():
 
     count = 0
     while working:
-
         gen = generator()
-        result = compare(gen)
+        res = compare(gen)
 
-        if result:
+        if res:
             working = False
             print("***STRING COMPLETE***")
             print("Results: %s (goal) equals %s (generated string)" % (goal, gen))
         else:
             count = count + 1
-            if count % 100000 == 0:
-                print("Count: %s" % count)
+            if count % 10000 == 0:
+                print("Count: %s, progress is %s" % (count, finished))
 
 
 start()
