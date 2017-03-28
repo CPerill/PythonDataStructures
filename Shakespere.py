@@ -17,25 +17,41 @@ goal = "methinks it is like a weasel"
 choices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
            "v", "w", "x", "y", "z", " "]
 
-finished1 = ''
-finished2 = ''
+finished = ''
+finding = True
+counting =1
+
 
 def generator():
     gen = ''
-    go = True
-    count = 0
-    while go:
-        while count < 28:
-            x = random.choice(choices)
+    global finding
+    i = 1
+    firstgo = True
+    global counting
+
+    while finding:
+        counting += 1
+        print(counting)
+        x = random.choice(choices)
+
+        if x != gen[:i] and firstgo is True and x == goal[:i]:
             gen += x
-            count += 1
-        go = False
-    return gen
+            i += 1
+            firstgo = False
+            if gen == goal:
+                finding = False
+                return gen
+        elif x != gen[i-1:i] and firstgo is False and x == goal[i-1:i]:
+                gen += x
+                i += 1
+                if gen == goal:
+                    finding = False
+                    return gen
+        elif counting % 10 == 0:
+                print("Count: %s, progress is %s" % (counting, finished))
 
 
 def genscore(s):
-
-
     score = 0
     if goal == s:
         score = 100
@@ -55,8 +71,7 @@ def compare(genstr):
     return False
 
 def insertstring(genstring):
-    global finished1
-    global finished2
+    global finished
 
     i = 1
     k = 1
@@ -64,15 +79,20 @@ def insertstring(genstring):
     while k <= len(goal):
         if k == 1:
             k += 1
-            if goal[:i] == genstring[:i] and genstring[:i] != finished1[:i]:
-                finished1 += genstring[:i]
+            if goal[:i] == genstring[:i] and genstring[:i] != finished[:i]:
+                finished += genstring[:i]
+                print(finished)
                 i += 1
 
         else:
             k += 1
-            if goal[i-1:i] == genstring[i-1:i] and genstring[i-1:i] != finished1[i-1:i]:
-                finished2 += genstring[i-1:i]
-                i += 1
+            if goal[i-1:i] == genstring[i-1:i]:
+                if genstring[i-1:i] != finished[i-1:i]:
+                    print("goal: %s and gen: %s" % (goal[i - 1:i], genstring[i - 1:i]))
+                    raw_input("Press Enter to continue...")
+                    finished += genstring[i-1:i]
+                    print(finished)
+                    i += 1
 
 
 def start():
@@ -92,7 +112,7 @@ def start():
             print("Results: %s (goal) equals %s (generated string)" % (goal, gen))
         else:
             count = count + 1
-            if count % 10000 == 0:
+            if count % 100000 == 0:
                 print("Count: %s, progress is %s" % (count, finished))
 
 
