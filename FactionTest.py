@@ -31,7 +31,7 @@ def crossmulitiply(f1num, f1den, f2num, f2den, comparator):
 
 # Greater than || Greater or equal than
     try:
-        if comparator == 'gte':
+        if comparator == 'ge':
             if fract1 >= fract2:
                 return True
             else:
@@ -42,12 +42,12 @@ def crossmulitiply(f1num, f1den, f2num, f2den, comparator):
             else:
                 return False
     # Less than || Less or equal than
-        elif comparator == 'lte':
+        elif comparator == 'le':
             if fract1 <= fract2:
                 return True
             else:
                 return False
-        elif comparator == 'gt':
+        elif comparator == 'lt':
             if fract1 < fract2:
                 return True
             else:
@@ -82,55 +82,19 @@ class Fraction:
 
     # Greater than
     def __gt__(self, other):
-        # Numerator of first fraction, denominator of the second fraction
-        fract1 = self.num * other.den
-        # Numerator of  second fraction, denominator of the first fraction
-        fract2 = other.num * self.den
-
-        # Compare
-        if fract1 > fract2:
-            return True
-        else:
-            return False
+        return crossmulitiply(self.num, self.den, other.num, other.den, 'gt')
 
     # Greater or equal to
     def __ge__(self, other):
-        # Numerator of first fraction, denominator of the second fraction
-        fract1 = self.num * other.den
-        # Numerator of  second fraction, denominator of the first fraction
-        fract2 = other.num * self.den
-
-        # Compare
-        if fract1 >= fract2:
-            return True
-        else:
-            return False
+        return crossmulitiply(self.num, self.den, other.num, other.den, 'ge')
 
     # Less than
     def __lt__(self, other):
-        # Numerator of first fraction, denominator of the second fraction
-        fract1 = self.num * other.den
-        # Numerator of  second fraction, denominator of the first fraction
-        fract2 = other.num * self.den
-
-        # Compare
-        if fract1 < fract2:
-            return True
-        else:
-            return False
+        return crossmulitiply(self.num, self.den, other.num, other.den, 'lt')
 
     # Less or equal to
     def __le__(self, other):
-        # Numerator of first fraction, denominator of the second fraction
-        fract1 = self.num * other.den
-        # Numerator of  second fraction, denominator of the first fraction
-        fract2 = other.num * self.den
-
-        # Compare
-        if fract1 <= fract2:
-            return True
-        else:
-            return False
+        return crossmulitiply(self.num, self.den, other.num, other.den, 'le')
 
     def show(self):
         print(self.num,"/",self.den)
@@ -140,6 +104,9 @@ x = Fraction(2,3)
 y = Fraction(3,5)
 # print(x+y)
 # print(x == y)
+
+# Should be true
+print(x > y)
 
 # Should be false
 print(x < y)
@@ -152,7 +119,8 @@ print(x >= y)
 
 x = Fraction(2,3)
 y = Fraction(2,3)
-# Should be true
-print(x >= y)
+
+# Should be false
+print(x > y)
 
 
