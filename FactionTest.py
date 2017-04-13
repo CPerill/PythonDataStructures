@@ -96,31 +96,35 @@ class Fraction:
     def __le__(self, other):
         return crossmulitiply(self.num, self.den, other.num, other.den, 'le')
 
+    # Multiply
+    def __mul__(self, other):
+        top = self.num * other.num
+        bottom = self.den * other.den
+
+        if top%bottom == top:
+            return Fraction(top/top, bottom/top)
+        else:
+            return Fraction(top, bottom)
+
+    # Division
+    def __div__(self, other):
+
+        top =  self.num * other.den
+        bottom = self.den * other.num
+
+        result = Fraction(top,bottom)
+
+        if top%bottom == 0:
+            return top/bottom
+        else:
+            return Fraction(top,bottom)
+
     def show(self):
         print(self.num,"/",self.den)
 
 
-x = Fraction(2,3)
-y = Fraction(3,5)
-# print(x+y)
-# print(x == y)
+x = Fraction(1,2)
+y = Fraction(2,4)
 
-# Should be true
-print(x > y)
-
-# Should be false
-print(x < y)
-
-# Should be false
-print(x <= y)
-
-# Should be true
-print(x >= y)
-
-x = Fraction(2,3)
-y = Fraction(2,3)
-
-# Should be false
-print(x > y)
-
-
+print(x/y)
+print (y*x)
